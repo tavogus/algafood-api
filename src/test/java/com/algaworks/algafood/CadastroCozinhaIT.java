@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.hasSize;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -41,15 +42,16 @@ public class CadastroCozinhaIT {
 	private Cozinha cozinhaAmericana;
 	private int quantidadeCozinhasCadastradas;
 	private String jsonCorretoCozinhaChinesa;
+
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(CadastroCozinhaIT.class);
 	
 	@Before
 	public void setUp() {
 		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
 		RestAssured.port = port;
-		RestAssured.basePath = "/cozinhas";
+		RestAssured.basePath = "/v1/cozinhas";
 
-		jsonCorretoCozinhaChinesa = ResourceUtils.getContentFromResource(
-				"/json/correto/cozinha-chinesa.json");
+		jsonCorretoCozinhaChinesa = ResourceUtils.getContentFromResource("/json/correto/cozinha-chinesa.json");
 		
 		databaseCleaner.clearTables();
 		prepararDados();
